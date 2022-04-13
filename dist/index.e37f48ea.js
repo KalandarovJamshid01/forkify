@@ -516,13 +516,14 @@ function hmrAcceptRun(bundle, id) {
 },{}],"aenu9":[function(require,module,exports) {
 var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
 var _regeneratorRuntime = require("regenerator-runtime");
+var _configJs = require("./config.js");
 var _modelJs = require("./model.js");
 var _recipeViewJs = require("./views/recipeView.js");
 var _recipeViewJsDefault = parcelHelpers.interopDefault(_recipeViewJs);
 const timeout = function(s) {
     return new Promise(function(_, reject) {
         setTimeout(function() {
-            reject(new Error(`Request took too long! Timeout after ${s} second`));
+            reject(new Error(`Salom Request took too long! Timeout after ${s} second`));
         }, s * 1000);
     });
 };
@@ -530,13 +531,16 @@ const showRecipe = async function() {
     try {
         const id = window.location.hash.slice(1);
         _recipeViewJsDefault.default.spinner();
-        await _modelJs.loadRecipe(id);
+        await Promise.race([
+            timeout(3),
+            _modelJs.loadRecipe(id)
+        ]);
         _recipeViewJsDefault.default.render(_modelJs.state.recipe);
     } catch (err) {
         alert(err);
     }
 };
-showRecipe();
+// console.log(data);
 [
     'hashchange',
     'load'
@@ -545,7 +549,7 @@ showRecipe();
 }); // https://forkify-api.herokuapp.com/v2
  ///////////////////////////////////////
 
-},{"regenerator-runtime":"dXNgZ","./model.js":"Y4A21","./views/recipeView.js":"l60JC","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}],"dXNgZ":[function(require,module,exports) {
+},{"regenerator-runtime":"dXNgZ","./model.js":"Y4A21","./views/recipeView.js":"l60JC","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3","./config.js":"k5Hzs"}],"dXNgZ":[function(require,module,exports) {
 /**
  * Copyright (c) 2014-present, Facebook, Inc.
  *
