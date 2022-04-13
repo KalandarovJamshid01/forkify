@@ -1,6 +1,7 @@
 const recipeContainer = document.querySelector('.recipe');
 import { async } from 'regenerator-runtime';
 import icons from '../img/icons.svg';
+import * as model from './model.js';
 const timeout = function (s) {
   return new Promise(function (_, reject) {
     setTimeout(function () {
@@ -9,26 +10,11 @@ const timeout = function (s) {
   });
 };
 const showRecipe = async function () {
-  const data = await fetch(
-    'https://forkify-api.herokuapp.com/api/v2/recipes/5ed6604591c37cdc054bc886'
-  );
-  const dataJson = await data.json();
-  console.log(dataJson);
-  const obj = dataJson.data.recipe;
-  console.log(obj);
-  const saver = {
-    id: obj.id,
-    name: obj.title,
-    time: obj.cooking_time,
-    image: obj.image_url,
-    publisher: obj.publisher,
-    servings: obj.servings,
-    url: obj.source_url,
-    ingredients: obj.ingredients,
-  };
-  console.log(saver);
+  const id = window.location.hash.slice(1);
+  console.log(id);
+  await model.loadRecipe(id);
   recipeContainer.innerHTML = '';
-  renederHtml(saver);
+  renederHtml(model.state.recipe);
 };
 
 showRecipe();
