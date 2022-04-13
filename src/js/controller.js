@@ -19,10 +19,10 @@ const showRecipe = async function () {
 
 showRecipe();
 
-['hashchange', 'load'].map(val => {
-  window.addEventListener(val, showRecipe);
-});
-
+// ['hashchange', 'load'].map(val => {
+//   window.addEventListener(val, showRecipe);
+// });
+window.addEventListener('hashchange', showRecipe);
 // https://forkify-api.herokuapp.com/v2
 
 ///////////////////////////////////////

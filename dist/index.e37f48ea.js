@@ -535,12 +535,10 @@ const showRecipe = async function() {
     _recipeViewJsDefault.default.render(_modelJs.state.recipe);
 };
 showRecipe();
-[
-    'hashchange',
-    'load'
-].map((val)=>{
-    window.addEventListener(val, showRecipe);
-}); // https://forkify-api.herokuapp.com/v2
+// ['hashchange', 'load'].map(val => {
+//   window.addEventListener(val, showRecipe);
+// });
+window.addEventListener('hashchange', showRecipe); // https://forkify-api.herokuapp.com/v2
  ///////////////////////////////////////
 
 },{"regenerator-runtime":"dXNgZ","./model.js":"Y4A21","./views/recipeView.js":"l60JC","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}],"dXNgZ":[function(require,module,exports) {
@@ -1120,7 +1118,7 @@ const state = {
     recipe: {}
 };
 const loadRecipe = async function(id) {
-    const data = await fetch('https://forkify-api.herokuapp.com/api/v2/recipes/5ed6604591c37cdc054bc886');
+    const data = await fetch(`https://forkify-api.herokuapp.com/api/v2/recipes/${id}`);
     const dataJson = await data.json();
     console.log(dataJson);
     const obj = dataJson.data.recipe;
