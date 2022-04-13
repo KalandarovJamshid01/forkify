@@ -1,14 +1,13 @@
 import { API_URL } from './config';
-
+import { getJSON } from './helper';
 export const state = {
   recipe: {},
 };
 export const loadRecipe = async function (id) {
   try {
-    const data = await fetch(`${API_URL}${id}`);
-    const dataJson = await data.json();
-    console.log(dataJson);
-    const obj = dataJson.data.recipe;
+    const jSON = await getJSON(API_URL + id);
+    console.log(jSON);
+    const obj = jSON.data.recipe;
     console.log(obj);
     state.recipe = {
       id: obj.id,

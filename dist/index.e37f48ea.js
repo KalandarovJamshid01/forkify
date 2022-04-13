@@ -1119,15 +1119,15 @@ parcelHelpers.export(exports, "state", ()=>state
 parcelHelpers.export(exports, "loadRecipe", ()=>loadRecipe
 );
 var _config = require("./config");
+var _helper = require("./helper");
 const state = {
     recipe: {}
 };
 const loadRecipe = async function(id) {
     try {
-        const data = await fetch(`${_config.API_URL}${id}`);
-        const dataJson = await data.json();
-        console.log(dataJson);
-        const obj = dataJson.data.recipe;
+        const jSON = await _helper.getJSON(_config.API_URL + id);
+        console.log(jSON);
+        const obj = jSON.data.recipe;
         console.log(obj);
         state.recipe = {
             id: obj.id,
@@ -1144,7 +1144,7 @@ const loadRecipe = async function(id) {
     }
 };
 
-},{"@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3","./config":"k5Hzs"}],"gkKU3":[function(require,module,exports) {
+},{"@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3","./config":"k5Hzs","./helper":"lVRAz"}],"gkKU3":[function(require,module,exports) {
 exports.interopDefault = function(a) {
     return a && a.__esModule ? a : {
         default: a
@@ -1180,6 +1180,21 @@ parcelHelpers.defineInteropFlag(exports);
 parcelHelpers.export(exports, "API_URL", ()=>API_URL
 );
 const API_URL = `https://forkify-api.herokuapp.com/api/v2/recipes/`;
+
+},{"@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}],"lVRAz":[function(require,module,exports) {
+var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
+parcelHelpers.defineInteropFlag(exports);
+parcelHelpers.export(exports, "getJSON", ()=>getJSON
+);
+const getJSON = async function(url) {
+    try {
+        const data = await fetch(url);
+        const dataJSON = await data.json();
+        return dataJSON;
+    } catch (err) {
+        alert(err);
+    }
+};
 
 },{"@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}],"l60JC":[function(require,module,exports) {
 var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
