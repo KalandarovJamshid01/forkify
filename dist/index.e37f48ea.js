@@ -529,6 +529,7 @@ const timeout = function(s) {
 const showRecipe = async function() {
     try {
         const id = window.location.hash.slice(1);
+        _recipeViewJsDefault.default.spinner();
         await _modelJs.loadRecipe(id);
         _recipeViewJsDefault.default.render(_modelJs.state.recipe);
     } catch (err) {
@@ -1188,6 +1189,15 @@ class RecipeView {
     }
      #clearHtml() {
         this.#parentElement.innerHTML = '';
+    }
+    spinner() {
+        const spinHtml = ` <div class="spinner">
+    <svg>
+      <use href="${_iconsSvgDefault.default}#icon-loader"></use>
+    </svg>
+  </div>`;
+        this.#clearHtml();
+        this.#parentElement.insertAdjacentHTML('afterbegin', spinHtml);
     }
      #rendering(data) {
         let arr = data.map((val)=>{

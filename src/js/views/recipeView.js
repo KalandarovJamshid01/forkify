@@ -13,6 +13,15 @@ class RecipeView {
   #clearHtml() {
     this.#parentElement.innerHTML = '';
   }
+  spinner() {
+    const spinHtml = ` <div class="spinner">
+    <svg>
+      <use href="${icons}#icon-loader"></use>
+    </svg>
+  </div>`;
+    this.#clearHtml();
+    this.#parentElement.insertAdjacentHTML('afterbegin', spinHtml);
+  }
   #rendering(data) {
     let arr = data.map(val => {
       return `<li class="recipe__ingredient">

@@ -11,6 +11,7 @@ const timeout = function (s) {
 const showRecipe = async function () {
   try {
     const id = window.location.hash.slice(1);
+    recipeView.spinner();
     await model.loadRecipe(id);
     recipeView.render(model.state.recipe);
   } catch (err) {
