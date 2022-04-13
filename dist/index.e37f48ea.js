@@ -516,9 +516,9 @@ function hmrAcceptRun(bundle, id) {
 },{}],"aenu9":[function(require,module,exports) {
 var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
 var _regeneratorRuntime = require("regenerator-runtime");
-var _iconsSvg = require("../img/icons.svg");
-var _iconsSvgDefault = parcelHelpers.interopDefault(_iconsSvg);
 var _modelJs = require("./model.js");
+var _recipeViewJs = require("./views/recipeView.js");
+var _recipeViewJsDefault = parcelHelpers.interopDefault(_recipeViewJs);
 const recipeContainer = document.querySelector('.recipe');
 const timeout = function(s) {
     return new Promise(function(_, reject) {
@@ -532,24 +532,9 @@ const showRecipe = async function() {
     console.log(id);
     await _modelJs.loadRecipe(id);
     recipeContainer.innerHTML = '';
-    renederHtml(_modelJs.state.recipe);
+    _recipeViewJsDefault.default.render(_modelJs.state.recipe);
 };
 showRecipe();
-const rendering = function(data) {
-    let arr = data.map((val)=>{
-        return `<li class="recipe__ingredient">
-  <svg class="recipe__icon">
-    <use href="${_iconsSvgDefault.default}#icon-check"></use>
-  </svg>
-  <div class="recipe__quantity">${val.quantity}</div>
-  <div class="recipe__description">
-    <span class="recipe__unit">${val.unit}</span>
-    ${val.description}
-  </div>
-</li>`;
-    });
-    return arr;
-};
 [
     'hashchange',
     'load'
@@ -558,7 +543,7 @@ const rendering = function(data) {
 }); // https://forkify-api.herokuapp.com/v2
  ///////////////////////////////////////
 
-},{"regenerator-runtime":"dXNgZ","../img/icons.svg":"cMpiy","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3","./model.js":"Y4A21"}],"dXNgZ":[function(require,module,exports) {
+},{"regenerator-runtime":"dXNgZ","./model.js":"Y4A21","./views/recipeView.js":"l60JC","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}],"dXNgZ":[function(require,module,exports) {
 /**
  * Copyright (c) 2014-present, Facebook, Inc.
  *
@@ -1124,7 +1109,172 @@ try {
     else Function("r", "regeneratorRuntime = r")(runtime);
 }
 
-},{}],"cMpiy":[function(require,module,exports) {
+},{}],"Y4A21":[function(require,module,exports) {
+var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
+parcelHelpers.defineInteropFlag(exports);
+parcelHelpers.export(exports, "state", ()=>state
+);
+parcelHelpers.export(exports, "loadRecipe", ()=>loadRecipe
+);
+const state = {
+    recipe: {}
+};
+const loadRecipe = async function(id) {
+    const data = await fetch('https://forkify-api.herokuapp.com/api/v2/recipes/5ed6604591c37cdc054bc886');
+    const dataJson = await data.json();
+    console.log(dataJson);
+    const obj = dataJson.data.recipe;
+    console.log(obj);
+    state.recipe = {
+        id: obj.id,
+        name: obj.title,
+        time: obj.cooking_time,
+        image: obj.image_url,
+        publisher: obj.publisher,
+        servings: obj.servings,
+        url: obj.source_url,
+        ingredients: obj.ingredients
+    };
+};
+
+},{"@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}],"gkKU3":[function(require,module,exports) {
+exports.interopDefault = function(a) {
+    return a && a.__esModule ? a : {
+        default: a
+    };
+};
+exports.defineInteropFlag = function(a) {
+    Object.defineProperty(a, '__esModule', {
+        value: true
+    });
+};
+exports.exportAll = function(source, dest) {
+    Object.keys(source).forEach(function(key) {
+        if (key === 'default' || key === '__esModule' || dest.hasOwnProperty(key)) return;
+        Object.defineProperty(dest, key, {
+            enumerable: true,
+            get: function() {
+                return source[key];
+            }
+        });
+    });
+    return dest;
+};
+exports.export = function(dest, destName, get) {
+    Object.defineProperty(dest, destName, {
+        enumerable: true,
+        get: get
+    });
+};
+
+},{}],"l60JC":[function(require,module,exports) {
+var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
+parcelHelpers.defineInteropFlag(exports);
+var _iconsSvg = require("../../img/icons.svg");
+var _iconsSvgDefault = parcelHelpers.interopDefault(_iconsSvg);
+class RecipeView {
+    #prentElement = document.querySelector('.recipe');
+    #data;
+    render(data) {
+        this.#data = data;
+        if (!data) return;
+        this.#generatorHtml(this.#data);
+    }
+     #rendering(data) {
+        let arr = data.map((val)=>{
+            return `<li class="recipe__ingredient">
+    <svg class="recipe__icon">
+      <use href="${_iconsSvgDefault.default}#icon-check"></use>
+    </svg>
+    <div class="recipe__quantity">${val.quantity}</div>
+    <div class="recipe__description">
+      <span class="recipe__unit">${val.unit}</span>
+      ${val.description}
+    </div>
+  </li>`;
+        });
+        return arr;
+    }
+     #generatorHtml(data1) {
+        let html = `<figure class="recipe__fig">
+      <img src="${data1.image}" alt="${data1.name}" class="recipe__img" />
+      <h1 class="recipe__title">
+        <span>${data1.name}</span>
+      </h1>
+    </figure>
+    
+    <div class="recipe__details">
+      <div class="recipe__info">
+        <svg class="recipe__info-icon">
+          <use href="${_iconsSvgDefault.default}#icon-clock"></use>
+        </svg>
+        <span class="recipe__info-data recipe__info-data--minutes">${data1.time}</span>
+        <span class="recipe__info-text">minutes</span>
+      </div>
+      <div class="recipe__info">
+        <svg class="recipe__info-icon">
+          <use href="${_iconsSvgDefault.default}#icon-users"></use>
+        </svg>
+        <span class="recipe__info-data recipe__info-data--people">${data1.servings}</span>
+        <span class="recipe__info-text">servings</span>
+    
+        <div class="recipe__info-buttons">
+          <button class="btn--tiny btn--increase-servings">
+            <svg>
+              <use href="${_iconsSvgDefault.default}#icon-minus-circle"></use>
+            </svg>
+          </button>
+          <button class="btn--tiny btn--increase-servings">
+            <svg>
+              <use href="${_iconsSvgDefault.default}#icon-plus-circle"></use>
+            </svg>
+          </button>
+        </div>
+      </div>
+    
+      <div class="recipe__user-generated">
+        <svg>
+          <use href="${_iconsSvgDefault.default}#icon-user"></use>
+        </svg>
+      </div>
+      <button class="btn--round">
+        <svg class="">
+          <use href="${_iconsSvgDefault.default}#icon-bookmark-fill"></use>
+        </svg>
+      </button>
+    </div>
+    
+    <div class="recipe__ingredients">
+      <h2 class="heading--2">Recipe ingredients</h2>
+      <ul class="recipe__ingredient-list">
+        ${this.#rendering(data1.ingredients).join('')}  
+      </ul>
+    </div>
+    
+    <div class="recipe__directions">
+      <h2 class="heading--2">How to cook it</h2>
+      <p class="recipe__directions-text">
+        This recipe was carefully designed and tested by
+        <span class="recipe__publisher">The Pioneer Woman</span>. Please check out
+        directions at their website.
+      </p>
+      <a
+        class="btn--small recipe__btn"
+        href="http://thepioneerwoman.com/cooking/pasta-with-tomato-cream-sauce/"
+        target="_blank"
+      >
+        <span>Directions</span>
+        <svg class="search__icon">
+          <use href="${_iconsSvgDefault.default}#icon-arrow-right"></use>
+        </svg>
+      </a>
+    </div>`;
+        this.#prentElement.insertAdjacentHTML('afterbegin', html);
+    }
+}
+exports.default = new RecipeView();
+
+},{"@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3","../../img/icons.svg":"cMpiy"}],"cMpiy":[function(require,module,exports) {
 module.exports = require('./helpers/bundle-url').getBundleURL('hWUTQ') + "icons.21bad73c.svg" + "?" + Date.now();
 
 },{"./helpers/bundle-url":"lgJ39"}],"lgJ39":[function(require,module,exports) {
@@ -1161,64 +1311,6 @@ exports.getBundleURL = getBundleURLCached;
 exports.getBaseURL = getBaseURL;
 exports.getOrigin = getOrigin;
 
-},{}],"gkKU3":[function(require,module,exports) {
-exports.interopDefault = function(a) {
-    return a && a.__esModule ? a : {
-        default: a
-    };
-};
-exports.defineInteropFlag = function(a) {
-    Object.defineProperty(a, '__esModule', {
-        value: true
-    });
-};
-exports.exportAll = function(source, dest) {
-    Object.keys(source).forEach(function(key) {
-        if (key === 'default' || key === '__esModule' || dest.hasOwnProperty(key)) return;
-        Object.defineProperty(dest, key, {
-            enumerable: true,
-            get: function() {
-                return source[key];
-            }
-        });
-    });
-    return dest;
-};
-exports.export = function(dest, destName, get) {
-    Object.defineProperty(dest, destName, {
-        enumerable: true,
-        get: get
-    });
-};
-
-},{}],"Y4A21":[function(require,module,exports) {
-var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
-parcelHelpers.defineInteropFlag(exports);
-parcelHelpers.export(exports, "state", ()=>state
-);
-parcelHelpers.export(exports, "loadRecipe", ()=>loadRecipe
-);
-const state = {
-    recipe: {}
-};
-const loadRecipe = async function(id) {
-    const data = await fetch('https://forkify-api.herokuapp.com/api/v2/recipes/5ed6604591c37cdc054bc886');
-    const dataJson = await data.json();
-    console.log(dataJson);
-    const obj = dataJson.data.recipe;
-    console.log(obj);
-    state.recipe = {
-        id: obj.id,
-        name: obj.title,
-        time: obj.cooking_time,
-        image: obj.image_url,
-        publisher: obj.publisher,
-        servings: obj.servings,
-        url: obj.source_url,
-        ingredients: obj.ingredients
-    };
-};
-
-},{"@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}]},["ddCAb","aenu9"], "aenu9", "parcelRequire3a11")
+},{}]},["ddCAb","aenu9"], "aenu9", "parcelRequire3a11")
 
 //# sourceMappingURL=index.e37f48ea.js.map

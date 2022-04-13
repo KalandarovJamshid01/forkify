@@ -1,6 +1,31 @@
+import icons from '../../img/icons.svg';
+
 class RecipeView {
   #prentElement = document.querySelector('.recipe');
-  generatorHtml() {
+  #data;
+  render(data) {
+    this.#data = data;
+
+    if (!data) return;
+    this.#generatorHtml(this.#data);
+  }
+
+  #rendering(data) {
+    let arr = data.map(val => {
+      return `<li class="recipe__ingredient">
+    <svg class="recipe__icon">
+      <use href="${icons}#icon-check"></use>
+    </svg>
+    <div class="recipe__quantity">${val.quantity}</div>
+    <div class="recipe__description">
+      <span class="recipe__unit">${val.unit}</span>
+      ${val.description}
+    </div>
+  </li>`;
+    });
+    return arr;
+  }
+  #generatorHtml(data) {
     let html = `<figure class="recipe__fig">
       <img src="${data.image}" alt="${data.name}" class="recipe__img" />
       <h1 class="recipe__title">
@@ -56,9 +81,7 @@ class RecipeView {
     <div class="recipe__ingredients">
       <h2 class="heading--2">Recipe ingredients</h2>
       <ul class="recipe__ingredient-list">
-        ${rendering(data.ingredients).join('')}
-    
-        
+        ${this.#rendering(data.ingredients).join('')}  
       </ul>
     </div>
     
@@ -83,3 +106,4 @@ class RecipeView {
     this.#prentElement.insertAdjacentHTML('afterbegin', html);
   }
 }
+export default new RecipeView();

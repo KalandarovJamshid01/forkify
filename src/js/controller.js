@@ -1,7 +1,7 @@
 const recipeContainer = document.querySelector('.recipe');
 import { async } from 'regenerator-runtime';
-import icons from '../img/icons.svg';
 import * as model from './model.js';
+import recipeView from './views/recipeView.js';
 const timeout = function (s) {
   return new Promise(function (_, reject) {
     setTimeout(function () {
@@ -14,27 +14,10 @@ const showRecipe = async function () {
   console.log(id);
   await model.loadRecipe(id);
   recipeContainer.innerHTML = '';
-  renederHtml(model.state.recipe);
+  recipeView.render(model.state.recipe);
 };
 
 showRecipe();
-const rendering = function (data) {
-  let arr = data.map(val => {
-    return `<li class="recipe__ingredient">
-  <svg class="recipe__icon">
-    <use href="${icons}#icon-check"></use>
-  </svg>
-  <div class="recipe__quantity">${val.quantity}</div>
-  <div class="recipe__description">
-    <span class="recipe__unit">${val.unit}</span>
-    ${val.description}
-  </div>
-</li>`;
-  });
-  return arr;
-};
-
-
 
 ['hashchange', 'load'].map(val => {
   window.addEventListener(val, showRecipe);
