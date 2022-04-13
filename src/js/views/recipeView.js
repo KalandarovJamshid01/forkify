@@ -1,15 +1,18 @@
 import icons from '../../img/icons.svg';
 
 class RecipeView {
-  #prentElement = document.querySelector('.recipe');
+  #parentElement = document.querySelector('.recipe');
   #data;
   render(data) {
     this.#data = data;
 
     if (!data) return;
+    this.#clearHtml();
     this.#generatorHtml(this.#data);
   }
-
+  #clearHtml() {
+    this.#parentElement.innerHTML = '';
+  }
   #rendering(data) {
     let arr = data.map(val => {
       return `<li class="recipe__ingredient">
@@ -103,7 +106,7 @@ class RecipeView {
         </svg>
       </a>
     </div>`;
-    this.#prentElement.insertAdjacentHTML('afterbegin', html);
+    this.#parentElement.insertAdjacentHTML('afterbegin', html);
   }
 }
 export default new RecipeView();
