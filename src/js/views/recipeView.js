@@ -3,6 +3,7 @@ import icons from '../../img/icons.svg';
 class RecipeView {
   #parentElement = document.querySelector('.recipe');
   #data;
+  #errorMessages = `Sizning qidirayotgan malumotingiz topilmadi.Iltimos qayta urining!!!`;
   render(data) {
     this.#data = data;
 
@@ -19,12 +20,12 @@ class RecipeView {
     const html = `<div class="error">
     <div>
       <svg>
-        <use href="src/img/icons.svg#icon-alert-triangle"></use>
+        <use href="${icons}#icon-alert-triangle"></use>
       </svg>
     </div>
-    <p>No recipes found for your query. Please try again!</p>
+    <p>${this.#errorMessages}</p>
   </div>`;
-    this.#clearHtml;
+    this.#clearHtml();
     this.#parentElement.insertAdjacentHTML('afterbegin', html);
   }
   #clearHtml() {

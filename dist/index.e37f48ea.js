@@ -1207,6 +1207,7 @@ var _iconsSvgDefault = parcelHelpers.interopDefault(_iconsSvg);
 class RecipeView {
     #parentElement = document.querySelector('.recipe');
     #data;
+    #errorMessages = `Sizning qidirayotgan malumotingiz topilmadi.Iltimos qayta urining!!!`;
     render(data) {
         this.#data = data;
         if (!data) return;
@@ -1225,12 +1226,12 @@ class RecipeView {
         const html = `<div class="error">
     <div>
       <svg>
-        <use href="src/img/icons.svg#icon-alert-triangle"></use>
+        <use href="${_iconsSvgDefault.default}#icon-alert-triangle"></use>
       </svg>
     </div>
-    <p>No recipes found for your query. Please try again!</p>
+    <p>${this.#errorMessages}</p>
   </div>`;
-        this.#clearHtml;
+        this.#clearHtml();
         this.#parentElement.insertAdjacentHTML('afterbegin', html);
     }
      #clearHtml() {
