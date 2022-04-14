@@ -527,7 +527,7 @@ const showRecipe = async function() {
         await _modelJs.loadRecipe(id);
         _recipeViewJsDefault.default.render(_modelJs.state.recipe);
     } catch (err) {
-        alert(err);
+        _recipeViewJsDefault.default.errorNotify();
     }
 };
 // console.log(data);
@@ -1169,7 +1169,7 @@ const loadRecipe = async function(id) {
             ingredients: obj.ingredients
         };
     } catch (err) {
-        alert(err);
+        throw err;
     }
 };
 
@@ -1195,11 +1195,11 @@ const getJSON = async function(url) {
         const dataJSON = await data.json();
         return dataJSON;
     } catch (err) {
-        alert(err);
+        throw err;
     }
 };
 
-},{"@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3","./config":"k5Hzs"}],"l60JC":[function(require,module,exports) {
+},{"./config":"k5Hzs","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}],"l60JC":[function(require,module,exports) {
 var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
 parcelHelpers.defineInteropFlag(exports);
 var _iconsSvg = require("../../img/icons.svg");
@@ -1220,6 +1220,18 @@ class RecipeView {
         ].map((val)=>{
             window.addEventListener(val, handle);
         });
+    }
+    errorNotify() {
+        const html = `<div class="error">
+    <div>
+      <svg>
+        <use href="src/img/icons.svg#icon-alert-triangle"></use>
+      </svg>
+    </div>
+    <p>No recipes found for your query. Please try again!</p>
+  </div>`;
+        this.#clearHtml;
+        this.#parentElement.insertAdjacentHTML('afterbegin', html);
     }
      #clearHtml() {
         this.#parentElement.innerHTML = '';

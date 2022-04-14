@@ -10,7 +10,7 @@ const showRecipe = async function () {
     await model.loadRecipe(id);
     recipeView.render(model.state.recipe);
   } catch (err) {
-    alert(err);
+    recipeView.errorNotify();
   }
 };
 // console.log(data);

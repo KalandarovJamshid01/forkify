@@ -20,6 +20,6 @@ export const loadRecipe = async function (id) {
       ingredients: obj.ingredients,
     };
   } catch (err) {
-    alert(err);
+    throw err;
   }
 };

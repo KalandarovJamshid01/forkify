@@ -14,6 +14,6 @@ export const getJSON = async function (url) {
     const dataJSON = await data.json();
     return dataJSON;
   } catch (err) {
-    alert(err);
+    throw err;
   }
 };
