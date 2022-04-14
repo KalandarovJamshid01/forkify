@@ -10,6 +10,11 @@ class RecipeView {
     this.#clearHtml();
     this.#generatorHtml(this.#data);
   }
+  addHandleEvent(handle) {
+    ['hashchange', 'load'].map(val => {
+      window.addEventListener(val, handle);
+    });
+  }
   #clearHtml() {
     this.#parentElement.innerHTML = '';
   }
