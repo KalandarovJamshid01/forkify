@@ -15,6 +15,18 @@ class RecipeView {
       window.addEventListener(val, handle);
     });
   }
+  errorNotify() {
+    const html = `<div class="error">
+    <div>
+      <svg>
+        <use href="src/img/icons.svg#icon-alert-triangle"></use>
+      </svg>
+    </div>
+    <p>No recipes found for your query. Please try again!</p>
+  </div>`;
+    this.#clearHtml;
+    this.#parentElement.insertAdjacentHTML('afterbegin', html);
+  }
   #clearHtml() {
     this.#parentElement.innerHTML = '';
   }
