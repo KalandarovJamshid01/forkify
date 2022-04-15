@@ -520,6 +520,8 @@ var _configJs = require("./config.js");
 var _modelJs = require("./model.js");
 var _recipeViewJs = require("./views/recipeView.js");
 var _recipeViewJsDefault = parcelHelpers.interopDefault(_recipeViewJs);
+var _searchViewJs = require("./views/searchView.js");
+var _searchViewJsDefault = parcelHelpers.interopDefault(_searchViewJs);
 const showRecipe = async function() {
     try {
         const id = window.location.hash.slice(1);
@@ -531,10 +533,11 @@ const showRecipe = async function() {
     }
 };
 // console.log(data);
-_recipeViewJsDefault.default.addHandleEvent(showRecipe); // https://forkify-api.herokuapp.com/v2
+_recipeViewJsDefault.default.addHandleEvent(showRecipe);
+const data = _searchViewJsDefault.default.addHandleEvent(); // https://forkify-api.herokuapp.com/v2
  ///////////////////////////////////////
 
-},{"regenerator-runtime":"dXNgZ","./config.js":"k5Hzs","./model.js":"Y4A21","./views/recipeView.js":"l60JC","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}],"dXNgZ":[function(require,module,exports) {
+},{"regenerator-runtime":"dXNgZ","./config.js":"k5Hzs","./model.js":"Y4A21","./views/recipeView.js":"l60JC","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3","./views/searchView.js":"9OQAM"}],"dXNgZ":[function(require,module,exports) {
 /**
  * Copyright (c) 2014-present, Facebook, Inc.
  *
@@ -1377,6 +1380,24 @@ exports.getBundleURL = getBundleURLCached;
 exports.getBaseURL = getBaseURL;
 exports.getOrigin = getOrigin;
 
-},{}]},["ddCAb","aenu9"], "aenu9", "parcelRequire3a11")
+},{}],"9OQAM":[function(require,module,exports) {
+var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
+parcelHelpers.defineInteropFlag(exports);
+class SearchView {
+    #parentElement = document.querySelector('.search');
+    data;
+    getValue() {
+        const val = document.querySelector('.search__field').value;
+        return val;
+    }
+    addHandleEvent(data) {
+        this.#parentElement.addEventListener('submit', function(e) {
+            e.preventDefault();
+        });
+    }
+}
+exports.default = new SearchView();
+
+},{"@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}]},["ddCAb","aenu9"], "aenu9", "parcelRequire3a11")
 
 //# sourceMappingURL=index.e37f48ea.js.map
