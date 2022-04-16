@@ -3,6 +3,13 @@ import { API_URL } from './config.js';
 import * as model from './model.js';
 import recipeView from './views/recipeView.js';
 import searchView from './views/searchView.js';
+import resultsview from './views/resultsview.js';
+
+const resultsController = async function () {
+  const inputValue = searchView.getValue();
+  await model.loadSearchResult(inputValue);
+  resultsview.render(model.state.search);
+};
 const showRecipe = async function () {
   try {
     const id = window.location.hash.slice(1);
@@ -16,7 +23,7 @@ const showRecipe = async function () {
 
 // console.log(data);
 recipeView.addHandleEvent(showRecipe);
-const data = searchView.addHandleEvent();
+searchView.addHandleEvent(resultsController);
 // https://forkify-api.herokuapp.com/v2
 
 ///////////////////////////////////////

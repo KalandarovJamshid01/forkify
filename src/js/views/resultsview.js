@@ -1,3 +1,5 @@
+import icons from '../../img/icons.svg';
+
 class ResultsView {
   #parentElement = document.querySelector('.results');
   #data;
@@ -10,19 +12,19 @@ class ResultsView {
     this.#renderHtml();
   }
   #renderHtml() {
-    const recipe = this.#data;
-    recipe.forEach(element => {
+    const recipe = this.#data.results;
+    recipe.forEach(val => {
       const html = ` <li class="preview">
-    <a class="preview__link preview__link--active" href="#23456">
+    <a class="preview__link preview__link--active" href="#${val.id}">
       <figure class="preview__fig">
-        <img src="src/img/test-1.jpg" alt="Test" />
+        <img src="${val.img}" alt="Test" />
       </figure>
       <div class="preview__data">
-        <h4 class="preview__title">Pasta with Tomato Cream ...</h4>
-        <p class="preview__publisher">The Pioneer Woman</p>
+        <h4 class="preview__title">${val.title}</h4>
+        <p class="preview__publisher">${val.publisher}</p>
         <div class="preview__user-generated">
           <svg>
-            <use href="src/img/icons.svg#icon-user"></use>
+            <use href="${icons}#icon-user"></use>
           </svg>
         </div>
       </div>
@@ -32,3 +34,5 @@ class ResultsView {
     });
   }
 }
+
+export default new ResultsView();

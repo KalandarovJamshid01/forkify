@@ -27,5 +27,14 @@ export const loadRecipe = async function (id) {
     throw err;
   }
 };
-export const loadSearchResult = async function () {
- };
+export const loadSearchResult = async function (inputValue) {
+  const data = await getJSON(API_URL + '?search=' + inputValue);
+  state.search.results = data.data.recipes.map(recipe => {
+    return {
+      id: recipe.id,
+      img: recipe.image_url,
+      publisher: recipe.publisher,
+      title: recipe.title,
+    };
+  });
+};
