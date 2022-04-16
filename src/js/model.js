@@ -1,7 +1,11 @@
+import { async } from 'regenerator-runtime';
 import { API_URL } from './config';
 import { getJSON } from './helper';
 export const state = {
   recipe: {},
+  search: {
+    results: [],
+  },
 };
 export const loadRecipe = async function (id) {
   try {
@@ -23,3 +27,5 @@ export const loadRecipe = async function (id) {
     throw err;
   }
 };
+export const loadSearchResult = async function () {
+ };

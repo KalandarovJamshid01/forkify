@@ -1,6 +1,6 @@
 class SearchView {
   #parentElement = document.querySelector('.search');
-  data;
+  #data;
   getValue() {
     const val = document.querySelector('.search__field').value;
     return val;
@@ -10,5 +10,6 @@ class SearchView {
       e.preventDefault();
     });
   }
+  
 }
 export default new SearchView();
