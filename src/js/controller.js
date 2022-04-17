@@ -5,6 +5,7 @@ import recipeView from './views/recipeView.js';
 import searchView from './views/searchView.js';
 import resultsview from './views/resultsview.js';
 import paginationView from './views/paginationView.js';
+import bookmarkView from './views/bookmarkView.js';
 const resultsController = async function () {
   try {
     const inputValue = searchView.getValue();
@@ -40,6 +41,7 @@ const bookmarkController = function () {
   } else {
     model.bookMarkAdd(model.state.recipe);
   }
+  bookmarkView.render(model.state.bookMarkAdd);
   recipeView.render(model.state.recipe);
 };
 const init = function () {

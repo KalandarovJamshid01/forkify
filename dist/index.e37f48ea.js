@@ -526,6 +526,8 @@ var _resultsviewJs = require("./views/resultsview.js");
 var _resultsviewJsDefault = parcelHelpers.interopDefault(_resultsviewJs);
 var _paginationViewJs = require("./views/paginationView.js");
 var _paginationViewJsDefault = parcelHelpers.interopDefault(_paginationViewJs);
+var _bookmarkViewJs = require("./views/bookmarkView.js");
+var _bookmarkViewJsDefault = parcelHelpers.interopDefault(_bookmarkViewJs);
 const resultsController = async function() {
     try {
         const inputValue = _searchViewJsDefault.default.getValue();
@@ -557,6 +559,7 @@ const showRecipe = async function() {
 const bookmarkController = function() {
     if (_modelJs.state.recipe.bookmarked) _modelJs.deleteBookMark(_modelJs.state.recipe.id);
     else _modelJs.bookMarkAdd(_modelJs.state.recipe);
+    _bookmarkViewJsDefault.default.render(_modelJs.state.bookMarkAdd);
     _recipeViewJsDefault.default.render(_modelJs.state.recipe);
 };
 const init = function() {
@@ -569,7 +572,7 @@ const init = function() {
 init(); // https://forkify-api.herokuapp.com/v2
  ///////////////////////////////////////
 
-},{"regenerator-runtime":"dXNgZ","./config.js":"k5Hzs","./model.js":"Y4A21","./views/recipeView.js":"l60JC","./views/searchView.js":"9OQAM","./views/resultsview.js":"4wEfE","./views/paginationView.js":"6z7bi","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}],"dXNgZ":[function(require,module,exports) {
+},{"regenerator-runtime":"dXNgZ","./config.js":"k5Hzs","./model.js":"Y4A21","./views/recipeView.js":"l60JC","./views/searchView.js":"9OQAM","./views/resultsview.js":"4wEfE","./views/paginationView.js":"6z7bi","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3","./views/bookmarkView.js":"7YaI3"}],"dXNgZ":[function(require,module,exports) {
 /**
  * Copyright (c) 2014-present, Facebook, Inc.
  *
@@ -1599,6 +1602,39 @@ class PaginatonView {
 }
 exports.default = new PaginatonView();
 
-},{"../../img/icons.svg":"cMpiy","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}]},["ddCAb","aenu9"], "aenu9", "parcelRequire3a11")
+},{"../../img/icons.svg":"cMpiy","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}],"7YaI3":[function(require,module,exports) {
+var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
+parcelHelpers.defineInteropFlag(exports);
+class BookmarksView {
+    #parentElement = document.querySelector('.bookmarks__list');
+    #data;
+    render(data) {
+        this.#data = data;
+        this.#clearHtml();
+        this.#data.map((val)=>this.#generateHtml(val)
+        );
+    }
+     #clearHtml() {
+        this.#parentElement.innerHTML = '';
+    }
+     #generateHtml(val) {
+        const html = ` <li class="preview">
+    <a class="preview__link " href="#${val.id}">
+      <figure class="preview__fig">
+        <img src="${val.image}" alt="Test" />
+      </figure>
+      <div class="preview__data">
+        <h4 class="preview__title">${val.name}</h4>
+        <p class="preview__publisher">${val.publisher}</p>
+        
+      </div>
+    </a>
+  </li>`;
+        this.#parentElement.insertAdjacentHTML('afterbegin', html);
+    }
+}
+exports.default = new BookmarksView();
+
+},{"@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}]},["ddCAb","aenu9"], "aenu9", "parcelRequire3a11")
 
 //# sourceMappingURL=index.e37f48ea.js.map
