@@ -540,8 +540,8 @@ const paginationController = async function(page = _modelJs.state.search.page) {
     _resultsviewJsDefault.default.render(data);
     _paginationViewJsDefault.default.render(_modelJs.state.search);
 };
-const servingControl = function() {
-    _modelJs.servingRecipe(200);
+const servingControl = function(servingNum) {
+    _modelJs.servingRecipe(servingNum);
     _recipeViewJsDefault.default.render(_modelJs.state.recipe);
 };
 _paginationViewJsDefault.default.addHandleEvent(paginationController);
@@ -550,6 +550,7 @@ const showRecipe = async function() {
         const id = window.location.hash.slice(1);
         _recipeViewJsDefault.default.spinner();
         await _modelJs.loadRecipe(id);
+        // recipeView(data);
         servingControl();
     } catch (err) {
         _recipeViewJsDefault.default.errorNotify();
@@ -559,8 +560,9 @@ const init = function() {
     _paginationViewJsDefault.default.addHandleEvent(paginationController);
     _searchViewJsDefault.default.addHandleEvent(resultsController);
     _recipeViewJsDefault.default.addHandleEvent(showRecipe);
-    _recipeViewJsDefault.default.addHandleServings();
+    _recipeViewJsDefault.default.addHandleServings(servingControl);
 };
+init();
 // console.log(data);
 _recipeViewJsDefault.default.addHandleEvent(showRecipe);
 _searchViewJsDefault.default.addHandleEvent(resultsController); // https://forkify-api.herokuapp.com/v2
@@ -1236,7 +1238,7 @@ const paginationResult = async function(page = state.search.page) {
     const lastIn = page * state.search.perPage;
     return state.search.results.slice(startIn, lastIn);
 };
-const servingRecipe = async function(peopleNumber) {
+const servingRecipe = async function(peopleNumber = state.recipe.servings) {
     state.recipe.ingredients.map((val)=>{
         val.quantity = val.quantity * peopleNumber / state.recipe.servings;
     });
@@ -1355,12 +1357,14 @@ class RecipeView {
         <span class="recipe__info-text">servings</span>
     
         <div class="recipe__info-buttons">
-          <button class="btn--tiny btn--increase-servings">
+          <button class="btn--tiny btn--increase-servings" 
+          id="${this.#data.servings - 1}">
             <svg>
               <use href="${_iconsSvgDefault.default}#icon-minus-circle"></use>
             </svg>
           </button>
-          <button class="btn--tiny btn--increase-servings">
+          <button class="btn--tiny btn--increase-servings"
+          id="${this.#data.servings + 1}">
             <svg>
               <use href="${_iconsSvgDefault.default}#icon-plus-circle"></use>
             </svg>
@@ -1411,6 +1415,8 @@ class RecipeView {
         this.#parentElement.addEventListener('click', function(e) {
             const btn = e.target.closest('.btn--tiny');
             if (!btn) return;
+            const servingNum = +btn.getAttribute('id');
+            if (servingNum > 0) handle(servingNum);
         });
     }
 }
