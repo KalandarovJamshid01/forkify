@@ -8,6 +8,7 @@ export const state = {
     perPage: PAGINATION_NUM,
     page: 1,
   },
+  bookMarkAdd: [],
 };
 export const loadRecipe = async function (id) {
   try {
@@ -53,4 +54,15 @@ export const servingRecipe = async function (
     val.quantity = (val.quantity * peopleNumber) / state.recipe.servings;
   });
   state.recipe.servings = peopleNumber;
+};
+export const bookMarkAdd = function (recipe) {
+  state.bookMarkAdd.push(recipe);
+  console.log(state.bookMarkAdd);
+  state.recipe.bookmarked = true;
+};
+
+export const deleteBookMark = function (id) {
+  const index = state.bookMarkAdd.findIndex(val => val.id === id);
+  state.bookMarkAdd.splice(index, 1);
+  state.recipe.bookmarked = false;
 };

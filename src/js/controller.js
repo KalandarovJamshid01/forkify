@@ -29,18 +29,25 @@ const showRecipe = async function () {
     const id = window.location.hash.slice(1);
     recipeView.spinner();
     await model.loadRecipe(id);
-    // recipeView(data);
     servingControl();
   } catch (err) {
     recipeView.errorNotify();
   }
 };
-
+const bookmarkController = function () {
+  if (model.state.recipe.bookmarked) {
+    model.deleteBookMark(model.state.recipe.id);
+  } else {
+    model.bookMarkAdd(model.state.recipe);
+  }
+  recipeView.render(model.state.recipe);
+};
 const init = function () {
   paginationView.addHandleEvent(paginationController);
   searchView.addHandleEvent(resultsController);
   recipeView.addHandleEvent(showRecipe);
   recipeView.addHandleServings(servingControl);
+  recipeView.addHandleBookMark(bookmarkController);
 };
 init();
 // https://forkify-api.herokuapp.com/v2

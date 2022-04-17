@@ -549,17 +549,22 @@ const showRecipe = async function() {
         const id = window.location.hash.slice(1);
         _recipeViewJsDefault.default.spinner();
         await _modelJs.loadRecipe(id);
-        // recipeView(data);
         servingControl();
     } catch (err) {
         _recipeViewJsDefault.default.errorNotify();
     }
+};
+const bookmarkController = function() {
+    if (_modelJs.state.recipe.bookmarked) _modelJs.deleteBookMark(_modelJs.state.recipe.id);
+    else _modelJs.bookMarkAdd(_modelJs.state.recipe);
+    _recipeViewJsDefault.default.render(_modelJs.state.recipe);
 };
 const init = function() {
     _paginationViewJsDefault.default.addHandleEvent(paginationController);
     _searchViewJsDefault.default.addHandleEvent(resultsController);
     _recipeViewJsDefault.default.addHandleEvent(showRecipe);
     _recipeViewJsDefault.default.addHandleServings(servingControl);
+    _recipeViewJsDefault.default.addHandleBookMark(bookmarkController);
 };
 init(); // https://forkify-api.herokuapp.com/v2
  ///////////////////////////////////////
@@ -1186,6 +1191,10 @@ parcelHelpers.export(exports, "paginationResult", ()=>paginationResult
 );
 parcelHelpers.export(exports, "servingRecipe", ()=>servingRecipe
 );
+parcelHelpers.export(exports, "bookMarkAdd", ()=>bookMarkAdd
+);
+parcelHelpers.export(exports, "deleteBookMark", ()=>deleteBookMark
+);
 var _regeneratorRuntime = require("regenerator-runtime");
 var _config = require("./config");
 var _helper = require("./helper");
@@ -1195,7 +1204,8 @@ const state = {
         results: [],
         perPage: _config.PAGINATION_NUM,
         page: 1
-    }
+    },
+    bookMarkAdd: []
 };
 const loadRecipe = async function(id) {
     try {
@@ -1239,6 +1249,17 @@ const servingRecipe = async function(peopleNumber = state.recipe.servings) {
         val.quantity = val.quantity * peopleNumber / state.recipe.servings;
     });
     state.recipe.servings = peopleNumber;
+};
+const bookMarkAdd = function(recipe) {
+    state.bookMarkAdd.push(recipe);
+    console.log(state.bookMarkAdd);
+    state.recipe.bookmarked = true;
+};
+const deleteBookMark = function(id) {
+    const index = state.bookMarkAdd.findIndex((val)=>val.id === id
+    );
+    state.bookMarkAdd.splice(index, 1);
+    state.recipe.bookmarked = false;
 };
 
 },{"regenerator-runtime":"dXNgZ","./config":"k5Hzs","./helper":"lVRAz","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}],"lVRAz":[function(require,module,exports) {
@@ -1375,7 +1396,7 @@ class RecipeView {
       </div>
       <button class="btn--round">
         <svg class="">
-          <use href="${_iconsSvgDefault.default}#icon-bookmark-fill"></use>
+          <use href="${_iconsSvgDefault.default}#icon-bookmark${this.#data.bookmarked ? '-fill' : ''}"></use>
         </svg>
       </button>
     </div>
@@ -1413,6 +1434,14 @@ class RecipeView {
             if (!btn) return;
             const servingNum = +btn.getAttribute('id');
             if (servingNum > 0) handle(servingNum);
+        });
+    }
+    addHandleBookMark(handle) {
+        this.#parentElement.addEventListener('click', function(e) {
+            const btn = e.target.closest('.btn--round');
+            if (!btn) return;
+            console.log(btn);
+            handle();
         });
     }
 }
