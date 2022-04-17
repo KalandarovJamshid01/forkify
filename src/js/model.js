@@ -26,6 +26,9 @@ export const loadRecipe = async function (id) {
       url: obj.source_url,
       ingredients: obj.ingredients,
     };
+    if (state.bookMarkAdd.some(val => val.id === state.recipe.id)) {
+      state.recipe.bookmarked = true;
+    }
   } catch (err) {
     throw err;
   }
