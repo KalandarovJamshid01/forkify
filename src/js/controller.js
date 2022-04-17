@@ -19,6 +19,10 @@ const paginationController = async function (page = model.state.search.page) {
   resultsview.render(data);
   paginationView.render(model.state.search);
 };
+const servingControl = function () {
+  model.servingRecipe(200);
+  recipeView.render(model.state.recipe);
+};
 
 paginationView.addHandleEvent(paginationController);
 const showRecipe = async function () {
@@ -26,12 +30,18 @@ const showRecipe = async function () {
     const id = window.location.hash.slice(1);
     recipeView.spinner();
     await model.loadRecipe(id);
-    recipeView.render(model.state.recipe);
+    servingControl();
   } catch (err) {
     recipeView.errorNotify();
   }
 };
 
+const init= function(){
+  paginationView.addHandleEvent(paginationController)
+  searchView.addHandleEvent(resultsController)
+  recipeView.addHandleEvent(showRecipe)
+  recipeView.addHandleServings()
+}
 // console.log(data);
 recipeView.addHandleEvent(showRecipe);
 searchView.addHandleEvent(resultsController);

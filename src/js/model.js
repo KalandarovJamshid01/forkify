@@ -46,3 +46,9 @@ export const paginationResult = async function (page = state.search.page) {
   const lastIn = page * state.search.perPage;
   return state.search.results.slice(startIn, lastIn);
 };
+export const servingRecipe = async function (peopleNumber) {
+  state.recipe.ingredients.map(val => {
+    val.quantity = (val.quantity * peopleNumber) / state.recipe.servings;
+  });
+  state.recipe.servings = peopleNumber;
+};

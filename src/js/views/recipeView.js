@@ -137,5 +137,11 @@ class RecipeView {
     </div>`;
     this.#parentElement.insertAdjacentHTML('afterbegin', html);
   }
+  addHandleServings(handle) {
+    this.#parentElement.addEventListener('click', function (e) {
+      const btn = e.target.closest('.btn--tiny');
+      if (!btn) return;
+    });
+  }
 }
 export default new RecipeView();
