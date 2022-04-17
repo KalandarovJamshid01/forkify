@@ -544,7 +544,6 @@ const servingControl = function(servingNum) {
     _modelJs.servingRecipe(servingNum);
     _recipeViewJsDefault.default.render(_modelJs.state.recipe);
 };
-_paginationViewJsDefault.default.addHandleEvent(paginationController);
 const showRecipe = async function() {
     try {
         const id = window.location.hash.slice(1);
@@ -562,10 +561,7 @@ const init = function() {
     _recipeViewJsDefault.default.addHandleEvent(showRecipe);
     _recipeViewJsDefault.default.addHandleServings(servingControl);
 };
-init();
-// console.log(data);
-_recipeViewJsDefault.default.addHandleEvent(showRecipe);
-_searchViewJsDefault.default.addHandleEvent(resultsController); // https://forkify-api.herokuapp.com/v2
+init(); // https://forkify-api.herokuapp.com/v2
  ///////////////////////////////////////
 
 },{"regenerator-runtime":"dXNgZ","./config.js":"k5Hzs","./model.js":"Y4A21","./views/recipeView.js":"l60JC","./views/searchView.js":"9OQAM","./views/resultsview.js":"4wEfE","./views/paginationView.js":"6z7bi","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}],"dXNgZ":[function(require,module,exports) {

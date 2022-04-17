@@ -24,7 +24,6 @@ const servingControl = function (servingNum) {
   recipeView.render(model.state.recipe);
 };
 
-paginationView.addHandleEvent(paginationController);
 const showRecipe = async function () {
   try {
     const id = window.location.hash.slice(1);
@@ -44,9 +43,6 @@ const init = function () {
   recipeView.addHandleServings(servingControl);
 };
 init();
-// console.log(data);
-recipeView.addHandleEvent(showRecipe);
-searchView.addHandleEvent(resultsController);
 // https://forkify-api.herokuapp.com/v2
 
 ///////////////////////////////////////
