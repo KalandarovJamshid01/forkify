@@ -1,10 +1,12 @@
 import { async } from 'regenerator-runtime';
-import { API_URL } from './config';
+import { API_URL, PAGINATION_NUM } from './config';
 import { getJSON } from './helper';
 export const state = {
   recipe: {},
   search: {
     results: [],
+    perPage: PAGINATION_NUM,
+    page: 1,
   },
 };
 export const loadRecipe = async function (id) {
@@ -37,4 +39,10 @@ export const loadSearchResult = async function (inputValue) {
       title: recipe.title,
     };
   });
+};
+export const paginationResult = async function (page = state.search.page) {
+  state.search.page = page;
+  const startIn = (page - 1) * state.search.perPage;
+  const lastIn = page * state.search.perPage;
+  return state.search.results.slice(startIn, lastIn);
 };

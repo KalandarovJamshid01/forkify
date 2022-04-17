@@ -4,12 +4,23 @@ import * as model from './model.js';
 import recipeView from './views/recipeView.js';
 import searchView from './views/searchView.js';
 import resultsview from './views/resultsview.js';
-
+import paginationView from './views/paginationView.js';
 const resultsController = async function () {
-  const inputValue = searchView.getValue();
-  await model.loadSearchResult(inputValue);
-  resultsview.render(model.state.search);
+  try {
+    const inputValue = searchView.getValue();
+    resultsview.spinner();
+    await model.loadSearchResult(inputValue);
+    paginationController();
+    // resultsview.render(model.state.search);
+  } catch (err) {}
 };
+const paginationController = async function (page = model.state.search.page) {
+  const data = await model.paginationResult(page);
+  resultsview.render(data);
+  paginationView.render(model.state.search);
+};
+
+paginationView.addHandleEvent(paginationController);
 const showRecipe = async function () {
   try {
     const id = window.location.hash.slice(1);

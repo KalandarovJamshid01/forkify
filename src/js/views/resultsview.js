@@ -1,18 +1,28 @@
 import icons from '../../img/icons.svg';
-
+import recipeView from './recipeView';
 class ResultsView {
   #parentElement = document.querySelector('.results');
   #data;
   #clearHtml() {
     this.#parentElement.innerHTML = '';
   }
+
   render(data) {
     this.#data = data;
     this.#clearHtml();
     this.#renderHtml();
   }
+  spinner() {
+    this.#clearHtml();
+    let spinHtml = `<div class="spinner">
+    <svg>
+      <use href="${icons}#icon-loader"></use>
+    </svg>
+  </div>`;
+    this.#parentElement.insertAdjacentHTML('afterbegin', spinHtml);
+  }
   #renderHtml() {
-    const recipe = this.#data.results;
+    const recipe = this.#data;
     recipe.forEach(val => {
       const html = ` <li class="preview">
     <a class="preview__link preview__link--active" href="#${val.id}">
