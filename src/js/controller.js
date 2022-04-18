@@ -44,12 +44,17 @@ const bookmarkController = function () {
   bookmarkView.render(model.state.bookMarkAdd);
   recipeView.render(model.state.recipe);
 };
+const controlLoadBookmark = function () {
+  const data = model.getLocalSto();
+  bookmarkView.render(data);
+};
 const init = function () {
   paginationView.addHandleEvent(paginationController);
   searchView.addHandleEvent(resultsController);
   recipeView.addHandleEvent(showRecipe);
   recipeView.addHandleServings(servingControl);
   recipeView.addHandleBookMark(bookmarkController);
+  bookmarkView.addHandleEvent(controlLoadBookmark);
 };
 init();
 // https://forkify-api.herokuapp.com/v2

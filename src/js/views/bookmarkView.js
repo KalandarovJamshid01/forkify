@@ -4,7 +4,11 @@ class BookmarksView {
   render(data) {
     this.#data = data;
     this.#clearHtml();
+    if (!this.#data) return;
     this.#data.map(val => this.#generateHtml(val));
+  }
+  addHandleEvent(handle) {
+    window.addEventListener('load', handle);
   }
   #clearHtml() {
     this.#parentElement.innerHTML = '';

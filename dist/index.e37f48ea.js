@@ -562,12 +562,17 @@ const bookmarkController = function() {
     _bookmarkViewJsDefault.default.render(_modelJs.state.bookMarkAdd);
     _recipeViewJsDefault.default.render(_modelJs.state.recipe);
 };
+const controlLoadBookmark = function() {
+    const data = _modelJs.getLocalSto();
+    _bookmarkViewJsDefault.default.render(data);
+};
 const init = function() {
     _paginationViewJsDefault.default.addHandleEvent(paginationController);
     _searchViewJsDefault.default.addHandleEvent(resultsController);
     _recipeViewJsDefault.default.addHandleEvent(showRecipe);
     _recipeViewJsDefault.default.addHandleServings(servingControl);
     _recipeViewJsDefault.default.addHandleBookMark(bookmarkController);
+    _bookmarkViewJsDefault.default.addHandleEvent(controlLoadBookmark);
 };
 init(); // https://forkify-api.herokuapp.com/v2
  ///////////////////////////////////////
@@ -1194,6 +1199,8 @@ parcelHelpers.export(exports, "paginationResult", ()=>paginationResult
 );
 parcelHelpers.export(exports, "servingRecipe", ()=>servingRecipe
 );
+parcelHelpers.export(exports, "getLocalSto", ()=>getLocalSto
+);
 parcelHelpers.export(exports, "bookMarkAdd", ()=>bookMarkAdd
 );
 parcelHelpers.export(exports, "deleteBookMark", ()=>deleteBookMark
@@ -1255,16 +1262,27 @@ const servingRecipe = async function(peopleNumber = state.recipe.servings) {
     });
     state.recipe.servings = peopleNumber;
 };
+const saveLocalStorage = function() {
+    localStorage.setItem('bookmarks', JSON.stringify(state.bookMarkAdd));
+};
+const getLocalSto = function() {
+    const arr = JSON.parse(localStorage.getItem('bookmarks'));
+    if (!arr) return;
+    state.bookMarkAdd = arr;
+    return arr;
+};
 const bookMarkAdd = function(recipe) {
     state.bookMarkAdd.push(recipe);
     console.log(state.bookMarkAdd);
     state.recipe.bookmarked = true;
+    saveLocalStorage();
 };
 const deleteBookMark = function(id) {
     const index = state.bookMarkAdd.findIndex((val)=>val.id === id
     );
     state.bookMarkAdd.splice(index, 1);
     state.recipe.bookmarked = false;
+    saveLocalStorage();
 };
 
 },{"regenerator-runtime":"dXNgZ","./config":"k5Hzs","./helper":"lVRAz","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}],"lVRAz":[function(require,module,exports) {
@@ -1611,8 +1629,12 @@ class BookmarksView {
     render(data) {
         this.#data = data;
         this.#clearHtml();
+        if (!this.#data) return;
         this.#data.map((val)=>this.#generateHtml(val)
         );
+    }
+    addHandleEvent(handle) {
+        window.addEventListener('load', handle);
     }
      #clearHtml() {
         this.#parentElement.innerHTML = '';

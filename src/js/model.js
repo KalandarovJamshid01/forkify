@@ -58,14 +58,25 @@ export const servingRecipe = async function (
   });
   state.recipe.servings = peopleNumber;
 };
+const saveLocalStorage = function () {
+  localStorage.setItem('bookmarks', JSON.stringify(state.bookMarkAdd));
+};
+export const getLocalSto = function () {
+  const arr = JSON.parse(localStorage.getItem('bookmarks'));
+  if (!arr) return;
+  state.bookMarkAdd = arr;
+  return arr;
+};
 export const bookMarkAdd = function (recipe) {
   state.bookMarkAdd.push(recipe);
   console.log(state.bookMarkAdd);
   state.recipe.bookmarked = true;
+  saveLocalStorage();
 };
 
 export const deleteBookMark = function (id) {
   const index = state.bookMarkAdd.findIndex(val => val.id === id);
   state.bookMarkAdd.splice(index, 1);
   state.recipe.bookmarked = false;
+  saveLocalStorage();
 };
